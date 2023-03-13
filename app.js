@@ -19,15 +19,6 @@ app.use(productRoutes);
 app.use(generalRoutes);
 app.use(adminRoutes);
 app.use(authRoutes);
-app.get("/posts", isAuth, (req, res, next) => {
-  if (req.role == "admin") {
-    return res.status(200).send({ message: "You can add posts." });
-  } else {
-    return res
-      .status(200)
-      .send({ message: "You are logged but need special permissions" });
-  }
-});
 
 mongoose
   .connect(

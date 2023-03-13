@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
   }
 
   if (!decodedtoken) {
-    res.status(400).send({ "Error message": "Invalid token" });
+    res.status(400).send({ message: "Invalid token" });
     return;
   }
   req.userId = decodedtoken.id;
