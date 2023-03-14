@@ -28,7 +28,7 @@ exports.login = (req, res, next) => {
           }
         );
 
-        res.status(200).send({ message: "Login successful", token: token });
+        res.status(200).send({ message: "Login successful", token: token, role:user.role });
         return;
       } else {
         res.status(200).send({ message: "Wrong Password" });
@@ -81,5 +81,5 @@ exports.signup = (req, res, next) => {
 
 exports.checklogin = (req,res,next) => {
   console.log("checking status");
-  return res.status(200).json({message:"User is logged in"});
+  return res.status(200).json({message:"User is logged in",role:req.role});
 }

@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const { validationResult } = require("express-validator");
 
 exports.employeeData = (req, res, next) => {
   if (req.role == "admin") {
@@ -10,6 +11,11 @@ exports.employeeData = (req, res, next) => {
 };
 
 exports.addproduct = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).send({ message: "Error occured at validation" });
+    return;
+  }
   if (!(req.role == "admin")) {
     return res.status(403).send({ message: "Sorry Permission denied" });
   } else {
