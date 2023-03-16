@@ -7,7 +7,7 @@ const { check } = require("express-validator");
 router.get("/employeeData", isAuth, adminController.employeeData);
 router.post("/addproduct", isAuth,[
     check("imageURL").isURL(),
-    check("productname").isLength({ min: 10, max: 20}),
+    check("productname").isLength({ min: 2, max: 10}),
     check("description").isLength({ min: 5, max:20 }),
     check("price").isNumeric(),
     check("availablequantity").isNumeric()

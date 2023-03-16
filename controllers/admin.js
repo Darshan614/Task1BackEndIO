@@ -12,6 +12,7 @@ exports.employeeData = (req, res, next) => {
 
 exports.addproduct = (req, res, next) => {
   const errors = validationResult(req);
+  console.log(errors);
   if (!errors.isEmpty()) {
     res.status(422).send({ message: "Error occured at validation" });
     return;
