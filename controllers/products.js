@@ -1,7 +1,10 @@
 const Product = require("../models/Product");
 
 exports.products = (req, res, next) => {
-  Product.find({ available_quantity: { $gt: 0 } })
+  const skip = (req.params.page - 1) * 12;
+  Product.find()
+    .limit(12)
+    .skip(skip)
     .then((products) => {
       return res
         .status(200)
@@ -11,6 +14,17 @@ exports.products = (req, res, next) => {
       return res.status(200).send({ message: err });
     });
 };
+
+exports.productCount = (req, res, next) => {
+  Product.countDocuments((err,count)=>{
+    if(err){
+      res.status(400).send({message:"Error occured in counting"});
+    }
+    else{
+      res.status(200).send({message:"Count of documents",count:count});
+    }
+  })
+}
 
 // function foo(cart) {
 //   let arr = [];
@@ -47,8 +61,12 @@ exports.cartData = async (req, res, next) => {
   res.status(200).send({ message: "Products data", productData: data });
 };
 
-exports.productInfo = (req, res,next) =>{
-  Product.findOne({_id:req.body.productId}).then((prod)=>{
-    return res.status(200).send({message:"Product details",productData:prod})
-  })
-}
+exports.productInfo = (req, res, next) => {
+  console.log("in info")
+  Product.findOne({ _id: req.body.productId }).then((prod) => {
+    console.log(req.body.productId);
+    return res
+      .status(200)
+      .send({ message: "Product details", productData: prod });
+  });
+};

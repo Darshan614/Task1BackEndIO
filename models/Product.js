@@ -10,18 +10,27 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  imageURL: {
-    type: String,
-    required: true,
-  },
+  imageURLs: [
+    {
+      type: String,
+    },
+  ],
   available_quantity: {
     type: Number,
     required: true,
   },
-  price:{
+  price: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Product", UserSchema);
