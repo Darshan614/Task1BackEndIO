@@ -7,5 +7,6 @@ router.get("/products/:page", productController.products);
 router.get("/productCount",productController.productCount);
 router.post("/productInfo", productController.productInfo);
 router.post("/cartData", productController.cartData);
+router.post("/similarProducts", productController.similarProducts);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 
 exports.products = (req, res, next) => {
   const skip = (req.params.page - 1) * 12;
-  Product.find()
+  Product.find({},{imageURLs:{$slice:1}})
     .limit(12)
     .skip(skip)
     .then((products) => {
@@ -70,3 +70,10 @@ exports.productInfo = (req, res, next) => {
       .send({ message: "Product details", productData: prod });
   });
 };
+
+exports.similarProducts = (req, res, next) => {
+  Product.find({category:req.body.category},{imageURLs:{$slice:1}}).limit(4).then((data)=>{
+    // console.log(data);
+    res.status(200).send({message:"Data Found",data:data})
+  })
+}
