@@ -43,6 +43,7 @@ exports.productCount = (req, res, next) => {
 function foo2(cart) {
   return new Promise((resolve) => {
     let promises = [];
+    console.log("cart in foo2",cart);
     cart.forEach((c) => {
       promises.push(Product.findOne({ _id: c.id }));
     });

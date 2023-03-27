@@ -6,6 +6,7 @@ const isAuth = require("./middleware/is-auth");
 const generalRoutes = require("./routes/general");
 const adminRoutes = require("./routes/admin");
 const productRoutes = require("./routes/products");
+const orderRoutes = require("./routes/orders");
 const Product = require("./models/Product");
 
 const bodyParser = require("body-parser");
@@ -20,6 +21,7 @@ app.use(productRoutes);
 app.use(generalRoutes);
 app.use(adminRoutes);
 app.use(authRoutes);
+app.use(orderRoutes);
 
 // app.get("/addcategory", (req, res, next) => {
 //   Product.updateMany(
