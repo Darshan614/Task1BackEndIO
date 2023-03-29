@@ -27,10 +27,15 @@ exports.login = (req, res, next) => {
             expiresIn: 86400,
           }
         );
-
+        User.findOneAndUpdate({email:email},{deleted:false}).then((user)=>{
+          console.log("user updated",user)
+        }).catch((err)=>{
+          console.log("errr",err)
+        })
         res
           .status(200)
           .send({ message: "Login successful", token: token, role: user.role });
+
         return;
       } else {
         res.status(200).send({ message: "Wrong Password" });
