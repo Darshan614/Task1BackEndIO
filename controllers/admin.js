@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const { validationResult } = require("express-validator");
+const User = require("../models/User");
 
 exports.employeeData = (req, res, next) => {
   if (req.role == "admin") {
@@ -35,4 +36,20 @@ exports.addproduct = (req, res, next) => {
       }
     });
   }
+};
+
+exports.deleteUser = (req, res, next) => {
+  if (req.role !== "admin") {
+    return res.status(200).send({ message: "Permission denied" });
+  }
+  User.deleteOne({ email: req.body.email, username: req.body.username })
+    .then((data) => {
+      console.log("user deleted", data);
+      return res.status(200).send({ message: "User deleted" });
+    })
+    .catch((err) => {
+      return res
+        .status(200)
+        .send({ message: "Some error occured", error: err });
+    });
 };

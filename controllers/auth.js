@@ -28,7 +28,9 @@ exports.login = (req, res, next) => {
           }
         );
 
-        res.status(200).send({ message: "Login successful", token: token, role:user.role });
+        res
+          .status(200)
+          .send({ message: "Login successful", token: token, role: user.role });
         return;
       } else {
         res.status(200).send({ message: "Wrong Password" });
@@ -49,6 +51,7 @@ exports.signup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const username = req.body.username;
+  const address = "Sanganer, Jaipur, India";
   console.log("in sign up");
   User.findOne({ username: username }).then((user) => {
     if (user) {
@@ -65,9 +68,11 @@ exports.signup = (req, res, next) => {
           username: username,
           role: "customer",
           password: md5(password),
+          address: address,
         });
         user.save((err, user) => {
           if (err) {
+            console.log(err);
             res.status(200).send({ message: "User sign up failed." });
             return;
           }
@@ -79,7 +84,27 @@ exports.signup = (req, res, next) => {
   });
 };
 
-exports.checklogin = (req,res,next) => {
+exports.checklogin = (req, res, next) => {
   console.log("checking status");
-  return res.status(200).json({message:"User is logged in",role:req.role});
-}
+  return res.status(200).json({ message: "User is logged in", role: req.role });
+};
+
+exports.profile = (req, res, next) => {
+  User.findOne({ _id: req.userId })
+    .then((user) => {
+      res.status(200).send({ message: "User profile", user: user });
+    })
+    .catch((err) => {
+      res.status(400).send({ message: "Some error occured", error: err });
+    });
+};
+
+exports.inactivate = (req, res, next) => {
+  User.findByIdAndUpdate({ _id: req.userId }, { deleted: true })
+    .then((user) => {
+      res.status(200).send({ message: "User inactivated", user: user });
+    })
+    .catch((err) => {
+      res.status(400).send({ message: "Inactivation failed" });
+    });
+};

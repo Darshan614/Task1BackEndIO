@@ -18,6 +18,8 @@ router.post(
   ],
   authController.signup
 );
-router.get("/checklogin",isAuth,authController.checklogin);
+router.get("/inactivateUser", isAuth, authController.inactivate);
+router.get("/checklogin", isAuth, authController.checklogin);
+router.get("/profile", isAuth, authController.profile);
 
 module.exports = router;

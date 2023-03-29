@@ -10,9 +10,7 @@ const stripe = require("stripe")(
 function foo21(cart) {
   return new Promise((resolve) => {
     let promises = [];
-    // console.log("cart in foo", cart);
     cart.forEach((c) => {
-      // console.log("15q", Object.values(c)[0]);
       promises.push(
         Product.findOneAndUpdate(
           { _id: Object.keys(c)[0] },
@@ -29,15 +27,8 @@ function foo21(cart) {
 }
 exports.placeOrder = async (req, res, next) => {
   const cart = req.body.cart;
-  // console.log("31", cart);
   const data2 = await foo21(cart);
   const cartData = req.body.cart;
-  // console.log(
-  //   cartData,
-  //   req.userId,
-  //   "ddddddddddddddddddddddddddddddddddddd",
-  //   data2
-  // );
 
   const productList = [];
   let total = 0;
@@ -47,6 +38,7 @@ exports.placeOrder = async (req, res, next) => {
       product: Object.keys(cartData[a])[0],
       quantity: Object.values(cartData[a])[0],
       price: data2[a].price,
+      name: data2[a].productname,
     };
     productList.push(newObj);
   }
@@ -111,4 +103,12 @@ exports.checkout = async (req, res) => {
   // console.log(session.url);
   // res.redirect(303, session.url);
   res.status(200).send({ url: session.url });
+};
+
+exports.userOrders = (req, res, next) => {
+  console.log(req.userId);
+  Order.find({ user: req.userId }).then((orders) => {
+    console.log(orders);
+    res.status(200).send({ message: "user orders", orders: orders });
+  });
 };

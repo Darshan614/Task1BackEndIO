@@ -18,4 +18,6 @@ router.post(
   adminController.addproduct
 );
 
+router.post("/deleteUser", isAuth, adminController.deleteUser);
+
 module.exports = router;
