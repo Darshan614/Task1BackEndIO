@@ -25,8 +25,10 @@ exports.addproduct = (req, res, next) => {
       productname: req.body.productname,
       price: req.body.price,
       description: req.body.description,
-      imageURL: req.body.imageURL,
+      imageURLs: [req.body.imageURL],
       available_quantity: req.body.availablequantity,
+      category:req.body.category,
+      rating:5
     });
     product.save((err, product) => {
       if (err) {

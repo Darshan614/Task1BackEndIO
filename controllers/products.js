@@ -1,8 +1,17 @@
 const Product = require("../models/Product");
 
 exports.products = (req, res, next) => {
-  const skip = (req.params.page - 1) * 12;
-  Product.find({},{imageURLs:{$slice:1}})
+  // const skip = 0;
+  console.log(req.query);
+  const skip = (req.query.page - 1) * 12;
+  const category = req.query.category;
+  let filter = {};
+  if (category !== "all") {
+    filter.category = category;
+  }
+  console.log(filter);
+  console.log("in products");
+  Product.find(filter, { imageURLs: { $slice: 1 } })
     .limit(12)
     .skip(skip)
     .then((products) => {
@@ -16,15 +25,20 @@ exports.products = (req, res, next) => {
 };
 
 exports.productCount = (req, res, next) => {
-  Product.countDocuments((err,count)=>{
-    if(err){
-      res.status(400).send({message:"Error occured in counting"});
+  const category = req.params.category;
+  let filter = {};
+  if (category !== "all") {
+    filter.category = category;
+  }
+  Product.countDocuments(filter, (err, count) => {
+    if (err) {
+      res.status(400).send({ message: "Error occured in counting" });
+    } else {
+      res.status(200).send({ message: "Count of documents", count: count });
     }
-    else{
-      res.status(200).send({message:"Count of documents",count:count});
-    }
-  })
-}
+  });
+  // Product.countDocuments({})
+};
 
 // function foo(cart) {
 //   let arr = [];
@@ -43,7 +57,7 @@ exports.productCount = (req, res, next) => {
 function foo2(cart) {
   return new Promise((resolve) => {
     let promises = [];
-    console.log("cart in foo2",cart);
+    console.log("cart in foo2", cart);
     cart.forEach((c) => {
       promises.push(Product.findOne({ _id: c.id }));
     });
@@ -63,7 +77,7 @@ exports.cartData = async (req, res, next) => {
 };
 
 exports.productInfo = (req, res, next) => {
-  console.log("in info")
+  console.log("in info");
   Product.findOne({ _id: req.body.productId }).then((prod) => {
     console.log(req.body.productId);
     return res
@@ -73,8 +87,10 @@ exports.productInfo = (req, res, next) => {
 };
 
 exports.similarProducts = (req, res, next) => {
-  Product.find({category:req.body.category},{imageURLs:{$slice:1}}).limit(4).then((data)=>{
-    // console.log(data);
-    res.status(200).send({message:"Data Found",data:data})
-  })
-}
+  Product.find({ category: req.body.category }, { imageURLs: { $slice: 1 } })
+    .limit(4)
+    .then((data) => {
+      // console.log(data);
+      res.status(200).send({ message: "Data Found", data: data });
+    });
+};
