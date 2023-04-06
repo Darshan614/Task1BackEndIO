@@ -9,5 +9,7 @@ router.get("/productCount/:category", productController.productCount);
 router.post("/productInfo", productController.productInfo);
 router.post("/cartData", productController.cartData);
 router.post("/similarProducts", productController.similarProducts);
+router.post("/addReview", isAuth, productController.addProductReview);
+router.get("/getReviews/:productId", productController.getProductReviews);
 
 module.exports = router;

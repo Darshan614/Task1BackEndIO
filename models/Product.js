@@ -31,6 +31,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  numberOfReviews: {
+    type: Number,
+    required:true
+  }
 });
 
 module.exports = mongoose.model("Product", UserSchema);

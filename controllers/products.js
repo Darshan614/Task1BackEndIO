@@ -1,4 +1,6 @@
 const Product = require("../models/Product");
+const Review = require("../models/Reviews");
+const User = require("../models/User");
 
 exports.products = (req, res, next) => {
   // const skip = 0;
@@ -40,20 +42,6 @@ exports.productCount = (req, res, next) => {
   // Product.countDocuments({})
 };
 
-// function foo(cart) {
-//   let arr = [];
-//   return new Promise((resolve, reject) => {
-//     cart.forEach((c) => {
-//       Product.find({ _id: c.id }).then((prod) => {
-//         console.log(prod);
-//         arr.push(prod);
-//         resolve(arr);
-//       });
-//     });
-//     console.log(arr, "here");
-//   });
-// }
-
 function foo2(cart) {
   return new Promise((resolve) => {
     let promises = [];
@@ -93,4 +81,65 @@ exports.similarProducts = (req, res, next) => {
       // console.log(data);
       res.status(200).send({ message: "Data Found", data: data });
     });
+};
+
+exports.addProductReview = async (req, res, next) => {
+  const uname = await User.findOne(
+    { _id: req.userId },
+    { username: 1, _id: 0 }
+  );
+  console.log(
+    "username",
+    uname,
+    req.body.productId,
+    req.body.rating,
+    req.body.feedback
+  );
+  const newReview = new Review({
+    userId: req.userId,
+    userName: uname.username,
+    productId: req.body.productId,
+    rating: req.body.rating,
+    feedback: req.body.feedback,
+  });
+  Product.findOneAndUpdate(
+    { _id: req.body.productId },
+    { $inc: { numberOfReviews: 1 } }
+  );
+  const product = await Product.findOne({ _id: req.body.productId });
+  const newRating =
+    (product.rating * product.numberOfReviews + req.body.rating) /
+    (product.numberOfReviews + 1);
+  const totalReviews = product.numberOfReviews + 1;
+  console.log("113", product, newRating, totalReviews);
+  Product.findOneAndUpdate(
+    { _id: req.body.productId },
+    { rating: newRating, numberOfReviews: totalReviews }
+  ).then((res) => {
+    console.log(res);
+  });
+  newReview.save((err, review) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .send({ message: "Review addition failed", error: err });
+    } else {
+      return res
+        .status(200)
+        .send({ message: "Review added successfully", review: review });
+    }
+  });
+};
+
+exports.getProductReviews = async (req, res, next) => {
+  try {
+    const id = req.params.productId;
+    const reviews = await Review.find({ productId: id });
+    res
+      .status(200)
+      .send({ message: "Product reviews fetched", reviewsList: reviews });
+  } catch (err) {
+    res.status(400).send({ message: "Review fetch failed", error: err });
+  }
 };
