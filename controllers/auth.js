@@ -1,12 +1,8 @@
 const User = require("../models/User");
 const md5 = require("md5");
 const jwt = require("jsonwebtoken");
-const config = require("../config/authconfig.js");
+// const config = require("../config/authconfig.js");
 const { validationResult } = require("express-validator");
-// const sgMail = require("@sendgrid/mail");
-// sgMail.setApiKey(
-//   "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"
-// );
 const crypto = require("crypto");
 var nodemailer = require("nodemailer");
 // const { EMAIL, PASS } = require("../env");

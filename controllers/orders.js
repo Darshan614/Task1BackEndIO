@@ -3,9 +3,7 @@ const app = express();
 const Product = require("../models/Product");
 const User = require("../models/User");
 const Order = require("../models/Orders");
-const stripe = require("stripe")(
-  "sk_test_51IIwkrIAShPifzT0mWvMCw7riPsQbS7IKNiDjaLtDZzMDAexSgT85v8rXAtqg8DyaMgb7AykU3Xuv1jA5TqieKiW00BcidtSM6"
-);
+const stripe = require("stripe")(process.env.STRIPE);
 
 function foo21(cart) {
   return new Promise((resolve) => {
