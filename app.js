@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 require("dotenv").config();
 // console.log(process.env);
+app.use(cors());
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const isAuth = require("./middleware/is-auth");
@@ -35,6 +37,7 @@ app.get("/addcategory", (req, res, next) => {
     console.log(res);
   });
 });
+const port = process.env.PORT || 8080;
 const uri =
   "mongodb+srv://" +
   process.env.MONGO_USERNAME +
@@ -44,7 +47,7 @@ const uri =
 mongoose
   .connect(uri)
   .then((result) => {
-    app.listen(8080);
+    app.listen(port);
     console.log("Server started");
   })
   .catch((err) => {
