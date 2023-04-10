@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   console.log(token);
   let decodedtoken;
   try {
-    decodedtoken = jwt.verify(token, "DEEPSECRET");
+    decodedtoken = jwt.verify(token, process.env.secret);
   } catch (err) {
     res.status(500).send({ message: "Some problem in authentication" });
     return;

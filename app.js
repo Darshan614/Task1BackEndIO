@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
+// console.log(process.env);
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const isAuth = require("./middleware/is-auth");
@@ -33,11 +35,14 @@ app.get("/addcategory", (req, res, next) => {
     console.log(res);
   });
 });
-
+const uri =
+  "mongodb+srv://" +
+  process.env.MONGO_USERNAME +
+  ":" +
+  process.env.MONGO_PASSWORD +
+  "@cluster0.oantu.mongodb.net/Assignment?retryWrites=true&w=majority";
 mongoose
-  .connect(
-    "mongodb+srv://darshan:msdhoni@cluster0.oantu.mongodb.net/Assignment?retryWrites=true&w=majority"
-  )
+  .connect(uri)
   .then((result) => {
     app.listen(8080);
     console.log("Server started");

@@ -21,5 +21,9 @@ router.post(
 router.get("/inactivateUser", isAuth, authController.inactivate);
 router.get("/checklogin", isAuth, authController.checklogin);
 router.get("/profile", isAuth, authController.profile);
+router.post("/reserPassword", authController.resetPassword);
+router.post("/resetPassword", authController.resetPassword);
+router.post("/setPassword/:token", authController.setPassword);
+router.post("/updateProfile",isAuth,authController.updateProfile);
 
 module.exports = router;
