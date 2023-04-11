@@ -95,8 +95,8 @@ exports.checkout = async (req, res) => {
       };
     }),
     mode: "payment",
-    success_url: "http://localhost:3000/success",
-    cancel_url: "http://localhost:3000/cancel",
+    success_url: "https://fastidious-madeleine-fc8e2e.netlify.app/success",
+    cancel_url: "https://fastidious-madeleine-fc8e2e.netlify.app/cancel",
   });
   // console.log(session.url);
   // res.redirect(303, session.url);
