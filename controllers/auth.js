@@ -25,7 +25,7 @@ exports.login = (req, res, next) => {
         console.log("passwords matched");
         const token = jwt.sign(
           { id: user._id, role: user.role },
-          config.secret,
+          process.env.secret,
           {
             expiresIn: 86400,
           }
