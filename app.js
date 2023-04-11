@@ -28,15 +28,6 @@ app.use(adminRoutes);
 app.use(authRoutes);
 app.use(orderRoutes);
 
-app.get("/addcategory", (req, res, next) => {
-  Product.updateMany(
-    {},
-    { $set: { numberOfReviews: 10 } },
-    { upsert: false, multi: true }
-  ).then((res) => {
-    console.log(res);
-  });
-});
 const port = process.env.PORT || 8080;
 const uri =
   "mongodb+srv://" +
