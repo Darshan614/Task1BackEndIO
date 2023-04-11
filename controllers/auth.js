@@ -87,31 +87,31 @@ exports.signup = (req, res, next) => {
             return;
           }
 
-          res.status(200).send({ message: "User signed up" });
-          var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: EMAIL,
-              pass: PASS,
-            },
-          });
+          return res.status(200).send({ message: "User signed up" });
+          // var transporter = nodemailer.createTransport({
+          //   service: "gmail",
+          //   auth: {
+          //     user: EMAIL,
+          //     pass: PASS,
+          //   },
+          // });
 
-          var mailOptions = {
-            from: "jaindarshan849@gmail.com",
-            to: email,
-            subject: "SignUp successful",
-            text: "SignUp successfull",
-            html: "<h1>SignUp successful! <h2>Happy Shopping</h2></h1>",
-          };
+          // var mailOptions = {
+          //   from: "jaindarshan849@gmail.com",
+          //   to: email,
+          //   subject: "SignUp successful",
+          //   text: "SignUp successfull",
+          //   html: "<h1>SignUp successful! <h2>Happy Shopping</h2></h1>",
+          // };
 
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-          });
-          return;
+          // transporter.sendMail(mailOptions, function (error, info) {
+          //   if (error) {
+          //     console.log(error);
+          //   } else {
+          //     console.log("Email sent: " + info.response);
+          //   }
+          // });
+          // return;
         });
       });
     }
