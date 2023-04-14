@@ -15,6 +15,7 @@ router.post(
     check("email").isEmail(),
     check("password").isLength({ min: 5, max: 15 }),
     check("username").isLength({ min: 5 }),
+    check("address").isLength({min: 6})
   ],
   authController.signup
 );

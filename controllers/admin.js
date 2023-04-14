@@ -25,18 +25,39 @@ exports.addproduct = (req, res, next) => {
       productname: req.body.productname,
       price: req.body.price,
       description: req.body.description,
-      imageURLs: [req.body.imageURL],
+      imageURLs: req.body.imageURLs,
       available_quantity: req.body.availablequantity,
       category:req.body.category,
-      rating:5
+      rating:5,
+      numberOfReviews:10
     });
     product.save((err, product) => {
       if (err) {
-        return res.status(200).json({ message: "Product addition failed" });
+        return res.status(400).json({ message: "Product addition failed" });
       } else {
         return res.status(200).json({ message: "Product added" });
       }
     });
+  }
+};
+
+exports.editproduct = (req, res, next) => {
+  console.log("in edit product")
+  const errors = validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    res.status(422).send({ message: "Error occured at validation" });
+    return;
+  }
+  if (!(req.role == "admin")) {
+    return res.status(403).send({ message: "Sorry Permission denied" });
+  } else {
+    Product.findOneAndUpdate({id:req.body.id},{productname: req.body.productname,price: req.body.price,description: req.body.description,imageURLs:req.body.imageURLs,available_quantity:req.body.availablequantity,category:req.body.category})
+    .then((prod)=>{
+      return res.status(200).send({message:"Product edited",product:prod})
+    }).catch((err)=>{
+      return res.status(400).send({message:"EDit failed"})
+    })
   }
 };
 

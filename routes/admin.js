@@ -9,7 +9,7 @@ router.post(
   "/addproduct",
   isAuth,
   [
-    check("imageURL").isURL(),
+    check("imageURLs").isArray({min:1,max:7}),
     check("productname").isLength({ min: 2, max: 25 }),
     check("description").isLength({ min: 5, max: 50 }),
     check("price").isNumeric(),
@@ -17,7 +17,18 @@ router.post(
   ],
   adminController.addproduct
 );
-
+router.post(
+  "/editproduct",
+  isAuth,
+  [
+    check("imageURLs").isArray({min:1,max:7}),
+    check("productname").isLength({ min: 2, max: 25 }),
+    check("description").isLength({ min: 5, max: 50 }),
+    check("price").isNumeric(),
+    check("availablequantity").isNumeric(),
+  ],
+  adminController.editproduct
+);
 router.post("/deleteUser", isAuth, adminController.deleteUser);
 
 module.exports = router;
