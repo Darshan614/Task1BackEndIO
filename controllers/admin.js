@@ -52,7 +52,7 @@ exports.editproduct = (req, res, next) => {
   if (!(req.role == "admin")) {
     return res.status(403).send({ message: "Sorry Permission denied" });
   } else {
-    Product.findOneAndUpdate({id:req.body.id},{productname: req.body.productname,price: req.body.price,description: req.body.description,imageURLs:req.body.imageURLs,available_quantity:req.body.availablequantity,category:req.body.category})
+    Product.findOneAndUpdate({_id:req.body.id},{productname: req.body.productname,price: req.body.price,description: req.body.description,imageURLs:req.body.imageURLs,available_quantity:req.body.availablequantity,category:req.body.category})
     .then((prod)=>{
       return res.status(200).send({message:"Product edited",product:prod})
     }).catch((err)=>{
