@@ -68,7 +68,12 @@ exports.deleteUser = (req, res, next) => {
   User.deleteOne({ email: req.body.email, username: req.body.username })
     .then((data) => {
       console.log("user deleted", data);
-      return res.status(200).send({ message: "User deleted" });
+      if(data.deletedCount === 1){
+        return res.status(200).send({ message: "User deleted" });
+      }
+      else{
+        return res.status(400).send({ message: "User deletion failed" });
+      }
     })
     .catch((err) => {
       return res
