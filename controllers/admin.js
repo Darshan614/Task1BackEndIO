@@ -77,7 +77,28 @@ exports.deleteUser = (req, res, next) => {
     })
     .catch((err) => {
       return res
-        .status(200)
+        .status(500)
         .send({ message: "Some error occured", error: err });
     });
 };
+
+exports.deleteProduct = (req, res, next) => {
+  if (req.role !== "admin") {
+    return res.status(200).send({ message: "Permission denied" });
+  }
+  console.log("in delete");
+  Product.deleteOne({_id:req.body.id}).then((data)=>{
+    console.log("product deleted", data);
+      if(data.deletedCount === 1){
+        return res.status(200).send({ message: "Product deleted" });
+      }
+      else{
+        return res.status(400).send({ message: "Product deletion failed" });
+      }
+  })
+  .catch((err) => {
+      return res
+        .status(500)
+        .send({ message: "Some error occured", error: err });
+    });
+}
