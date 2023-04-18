@@ -215,11 +215,11 @@ exports.setPassword = (req, res, next) => {
 exports.updateProfile = (req, res, next) => {
   User.findOneAndUpdate(
     { _id: req.userId },
-    { username: req.body.username, address: req.body.address }
+    { username: req.body.username, address: req.body.address }, {new:true}
   )
     .then((result) => {
-      console.log(result);
-      return res.status(200).send({ message: "User profile updated" });
+      console.log("result",result);
+      return res.status(200).send({ message: "User profile updated",result:result });
     })
     .catch((err) => {
       console.log(err);
