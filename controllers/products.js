@@ -27,6 +27,7 @@ exports.products = (req, res, next) => {
 };
 
 exports.productCount = (req, res, next) => {
+  console.log("in product count");
   const category = req.params.category;
   let filter = {};
   if (category !== "all") {
